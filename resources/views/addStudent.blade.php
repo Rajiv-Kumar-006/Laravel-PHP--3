@@ -1,5 +1,25 @@
-<div>
+<div class="main-container">
+
+    <div class="message">
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
+
+    </div>
+
     <h1>Add New Student</h1>
+    <div>
+        <a href="/list">Watch added list of students</a>
+    </div>
+
     <form action="add" method="post" class="form-container">
         @csrf
         <div class="name">
@@ -22,6 +42,8 @@
             Submit
         </button>
     </form>
+
+
 </div>
 
 
@@ -44,7 +66,7 @@
     }
 
     .form-container {
-        max-width: 600px;
+        max-width: 500px;
         margin: 0 auto;
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(10px);
@@ -54,23 +76,25 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .form-container > div {
-        margin-bottom: 25px;
+    .form-container>div {
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
     label {
-        display: block;
-        margin-bottom: 10px;
+        width: 120px;
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: #f1f1f1;
     }
 
     input[type="text"],
     input[type="email"],
     input[type="password"] {
-        width: 100%;
-        padding: 15px;
+        flex: 1;
+        padding: 12px 15px;
         border: none;
         border-radius: 12px;
         font-size: 1rem;
@@ -104,6 +128,72 @@
         box-shadow: 0 8px 20px rgba(245, 176, 65, 0.4);
     }
 
+    .message {
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        padding: 0 10px;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 0.5s ease;
+    }
+
+    .alert-success {
+        background: rgba(245, 176, 65, 0.1);
+        color: #f5b041;
+        box-shadow: 0 0 10px rgba(245, 176, 65, 0.5);
+    }
+
+    .alert-danger {
+        background: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+        box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    }
+
+    div a {
+        display: inline-block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #f5b041, #f39c12);
+        color: #1e1e2f;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        margin: 15px auto;
+        text-align: center;
+    }
+
+    div a:hover {
+        background: linear-gradient(135deg, #f1c40f, #e67e22);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+
+    div {
+        text-align: center;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     @media (max-width: 600px) {
         .form-container {
             padding: 30px;
@@ -112,5 +202,31 @@
         h1 {
             font-size: 2rem;
         }
+
+        .form-container>div {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+        }
     }
 </style>
+
+
+<script>
+    // Auto-hide alerts after 5 seconds (5000ms)
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        });
+    }, 3000);
+</script>
